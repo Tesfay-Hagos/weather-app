@@ -1,12 +1,13 @@
 package storer
 
 import (
-	"github.com/Tesfay-Hagos/go-grpc-weather-svc/internal/constant/models"
+	"context"
+
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Storer interface {
-	CreateWeather(models.Weather) error
+	CreateWeather(context.Context, WeatherStor) error
 }
 
 type Weather struct {
@@ -16,8 +17,8 @@ type Weather struct {
 func NewWeatherStorer(db *mongo.Database) *Weather {
 	return &Weather{db: db}
 }
-func (w *Weather) CreateWeather(weather models.Weather) error {
-	_, err := w.db.Collection("weather").InsertOne(nil, weather)
+func (w *Weather) CreateWeather(ctx context.Context, weather WeatherStor) error {
+	_, err := w.db.Collection("weather").InsertOne(ctx, weather)
 	if err != nil {
 		return err
 	}
