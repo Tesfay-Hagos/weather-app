@@ -1,0 +1,20 @@
+# docker file for weather service
+FROM golang:1.22.4-alpine AS builder
+
+WORKDIR /app
+
+COPY ./weather .
+
+RUN go mod download
+
+RUN go build -o main .
+
+FROM alpine:latest  
+
+WORKDIR /root/
+
+COPY --from=builder /app/main .
+
+EXPOSE 8002
+
+CMD ["./main"]

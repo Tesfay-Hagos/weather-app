@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package weather;
+import "google/protobuf/timestamp.proto";
+option go_package = "./internal/constant/pb";
+
+service WeatherService {
+  rpc CreateWeather(CreateWeatherRequest) returns (CreateWeatherResponse);
+}
+
+// CreateProductRequest represents a request to create a product.
+message CreateWeatherRequest {
+  string city = 1;
+  google.protobuf.Timestamp startDate = 2;
+  google.protobuf.Timestamp endDate = 3;
+}
+
+// Weather represents the overall weather data
+message CreateWeatherResponse {
+  double latitude = 1;
+  double longitude = 2;
+  string address = 3;
+  string timezone = 4;
+  repeated BasicDay days = 5;
+}
+
+// BasicDay represents the essential weather data for a specific day
+message BasicDay {
+  string datetime = 1;
+  double tempMax = 2;
+  double tempMin = 3;
+  string conditions = 4;
+  double precipProb = 5;
+  double windSpeed = 6;
+  double windDir = 7;
+  double humidity = 8;
+  repeated BasicHour hours = 9;
+}
+
+// BasicHour represents the essential weather data for a specific hour
+message BasicHour {
+  string datetime = 1;
+  double temp = 2;
+  string conditions = 3;
+  double precipProb = 4;
+  double windSpeed = 5;
+  double humidity = 6;
+}
