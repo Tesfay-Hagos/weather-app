@@ -6,6 +6,7 @@ type Config struct {
 	Port          string `mapstructure:"PORT"`
 	AuthSvcUrl    string `mapstructure:"AUTH_SVC_URL"`
 	WeatherSvcUrl string `mapstructure:"WEATHER_SVC_URL"`
+	SwaggerHost   string `mapstructure:"SWAGGER_HOST"`
 }
 
 func LoadConfig() (c Config, err error) {

@@ -1,0 +1,233 @@
+definitions:
+  models.BasicDay:
+    properties:
+      conditions:
+        type: string
+      datetime:
+        type: string
+      hours:
+        items:
+          $ref: '#/definitions/models.BasicHour'
+        type: array
+      humidity:
+        type: number
+      precipProb:
+        type: number
+      tempMax:
+        type: number
+      tempMin:
+        type: number
+      windDir:
+        type: number
+      windSpeed:
+        type: number
+    type: object
+  models.BasicHour:
+    properties:
+      conditions:
+        type: string
+      datetime:
+        type: string
+      humidity:
+        type: number
+      precipProb:
+        type: number
+      temp:
+        type: number
+      windSpeed:
+        type: number
+    type: object
+  models.CreateWeatherRequest:
+    properties:
+      city:
+        type: string
+      endDate:
+        type: string
+      startDate:
+        type: string
+    type: object
+  models.CreateWeatherResponse:
+    properties:
+      address:
+        type: string
+      days:
+        items:
+          $ref: '#/definitions/models.BasicDay'
+        type: array
+      latitude:
+        type: number
+      longitude:
+        type: number
+      timezone:
+        type: string
+    type: object
+  models.ErrorResponse:
+    properties:
+      error:
+        type: string
+      status:
+        type: integer
+    type: object
+  models.LoginRequestBody:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.LoginResponse:
+    properties:
+      error:
+        type: string
+      status:
+        type: integer
+      token:
+        type: string
+    type: object
+  models.RegisterRequestBody:
+    properties:
+      confirm_password:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.RegisterResponse:
+    properties:
+      error:
+        type: string
+      status:
+        type: integer
+      user_id:
+        type: string
+    type: object
+externalDocs:
+  description: Find more info here
+  url: https://github.com/weatherteam/api
+host: localhost:8000
+info:
+  contact:
+    email: weather.support@weather.com
+    name: weather app support
+    url: http://www.weather.com
+  description: This is API used to create weather data for any city in the world.
+  license:
+    name: License
+    url: http://www.weather.com/license
+  termsOfService: http://www.weather.com/terms/
+  title: Weather API Gateway service
+  version: 0.1.0
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login user to the system.
+      parameters:
+      - description: Login to the system
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginRequestBody'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.LoginResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.LoginResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.LoginResponse'
+      summary: Login user
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register new user to the system.
+      parameters:
+      - description: Register to the system
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegisterRequestBody'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.RegisterResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.RegisterResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.RegisterResponse'
+      summary: Register new user
+      tags:
+      - Auth
+  /weather:
+    post:
+      consumes:
+      - application/json
+      description: Get and store weather data of your prefered city with the given
+        time range.
+      parameters:
+      - description: Create Weather Request body
+        in: body
+        name: weather
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateWeatherRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.CreateWeatherResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Store weather data of your prefered city
+      tags:
+      - Weather-API
+securityDefinitions:
+  BearerAuth:
+    description: '"Bearer token"'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

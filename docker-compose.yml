@@ -77,7 +77,7 @@ services:
       - mongo
     environment:
       - PORT=:8002
-      - MONGO_URL=mongodb://root:example@mongo:27017
+      - DATABASE_URL=mongodb://root:example@mongo:27017
     networks:
       - mynetwork
 
@@ -96,6 +96,7 @@ services:
       - PORT=:8000
       - AUTH_SVC_URL=auth:8001
       - WEATHER_SVC_URL=weather:8002
+      - SWAGGER_HOST=localhost:8000
     networks:
       - mynetwork
 

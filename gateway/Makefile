@@ -3,3 +3,5 @@ proto:
 
 server:
 	go run cmd/main.go
+docs:
+	swag fmt && swag init -g cmd/main.go

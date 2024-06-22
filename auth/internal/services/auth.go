@@ -23,6 +23,12 @@ func NewServer(h dbs.PersistenceDB, jwt utils.JwtWrapper) *Server {
 }
 
 func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
+	if req.ConfirmPassword != req.Password {
+		return &pb.RegisterResponse{
+			Status: http.StatusBadRequest,
+			Error:  "Password and confirm password do not match",
+		}, errors.New("password and confirm password do not match")
+	}
 	us, err := s.H.Queries.CreateUser(ctx, db.CreateUserParams{
 		Email:    req.Email,
 		Password: utils.HashPassword(req.Password),

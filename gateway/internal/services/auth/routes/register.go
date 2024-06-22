@@ -2,33 +2,19 @@ package routes
 
 import (
 	"context"
-	"net/http"
 
+	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/auth/constant/models"
 	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/auth/pb"
 	"github.com/gin-gonic/gin"
 )
 
-type RegisterRequestBody struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
+func Register(ctx *gin.Context, c pb.AuthServiceClient, req models.RegisterRequestBody) (models.RegisterResponse, error) {
 
-func Register(ctx *gin.Context, c pb.AuthServiceClient) {
-	body := RegisterRequestBody{}
-
-	if err := ctx.BindJSON(&body); err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
-		return
-	}
 	res, err := c.Register(context.Background(), &pb.RegisterRequest{
-		Email:    body.Email,
-		Password: body.Password,
+		Email:           req.Email,
+		Password:        req.Password,
+		ConfirmPassword: req.ConfirmPassword,
 	})
+	return models.PbRegisterResponseToRegisterResponse(res), err
 
-	if err != nil {
-		ctx.AbortWithError(http.StatusBadGateway, err)
-		return
-	}
-
-	ctx.JSON(int(res.Status), &res)
 }

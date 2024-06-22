@@ -19,6 +19,7 @@ service AuthService {
 message RegisterRequest {
   string email = 1;
   string password = 2;
+  string ConfirmPassword = 3;
 }
 
 // Response message for the Register method.
