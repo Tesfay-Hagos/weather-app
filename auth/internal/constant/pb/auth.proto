@@ -23,8 +23,9 @@ message RegisterRequest {
 
 // Response message for the Register method.
 message RegisterResponse {
-  int64 status = 1;
-  string error = 2;
+  string userId = 1;
+  int64 status = 2;
+  string error = 3;
 }
 
 // Request message for the Login method.

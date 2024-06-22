@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	dbs "github.com/Tesfay-Hagos/go-grpc-auth-svc/internal/constant/db"
@@ -22,12 +23,19 @@ func NewServer(h dbs.PersistenceDB, jwt utils.JwtWrapper) *Server {
 }
 
 func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
-	s.H.Queries.CreateUser(ctx, db.CreateUserParams{
+	us, err := s.H.Queries.CreateUser(ctx, db.CreateUserParams{
 		Email:    req.Email,
 		Password: utils.HashPassword(req.Password),
 	})
+	if err != nil {
+		return &pb.RegisterResponse{
+			Status: http.StatusBadRequest,
+			Error:  "Error creating user: " + err.Error(),
+		}, errors.New("Error creating user: " + err.Error())
+	}
 	return &pb.RegisterResponse{
 		Status: http.StatusCreated,
+		UserId: us.ID.String(),
 	}, nil
 }
 
