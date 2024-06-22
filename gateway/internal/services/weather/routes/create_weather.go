@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/weather/constant/models"
-	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/weather/pb"
+	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/weather/constant/pb"
 	"github.com/Tesfay-Hagos/go-grpc-api-gateway/support"
 	"github.com/gin-gonic/gin"
 )

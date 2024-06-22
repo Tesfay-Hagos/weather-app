@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/config"
-	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/weather/pb"
+	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/weather/constant/pb"
 	"google.golang.org/grpc"
 )
 

@@ -1,6 +1,6 @@
 package models
 
-import "github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/auth/pb"
+import "github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/auth/constant/pb"
 
 type LoginRequestBody struct {
 	Email    string `json:"email"`

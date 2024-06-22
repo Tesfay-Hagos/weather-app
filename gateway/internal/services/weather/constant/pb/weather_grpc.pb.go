@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v3.12.4
-// source: internal/services/weather/pb/weather.proto
+// source: internal/services/weather/constant/pb/weather.proto
 
 package pb
 
@@ -106,5 +106,5 @@ var WeatherService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "internal/services/weather/pb/weather.proto",
+	Metadata: "internal/services/weather/constant/pb/weather.proto",
 }

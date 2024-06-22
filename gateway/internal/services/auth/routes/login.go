@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/auth/constant/models"
-	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/auth/pb"
+	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/auth/constant/pb"
 	"github.com/gin-gonic/gin"
 )
 

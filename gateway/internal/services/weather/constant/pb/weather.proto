@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package weather;
 import "google/protobuf/timestamp.proto";
-option go_package = "./internal/services/weather/pb";
+option go_package = "./internal/services/weather/constant/pb";
 
 service WeatherService {
   rpc CreateWeather(CreateWeatherRequest) returns (CreateWeatherResponse);

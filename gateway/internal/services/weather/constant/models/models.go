@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/weather/pb"
+	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/weather/constant/pb"
 )
 
 type CreateWeatherRequest struct {
