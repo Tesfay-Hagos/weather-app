@@ -1,20 +1,21 @@
-# docker file for weather service
+# Start with the official Golang image
 FROM golang:1.22.4-alpine AS builder
 
+
+# Set the Current Working Directory inside the container
 WORKDIR /app
 
-COPY ./weather .
+# Copy go mod and sum files
+COPY go.mod go.sum ./
 
+# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download
 
-RUN go build -o main .
+# Copy the source from the current directory to the Working Directory inside the container
+COPY . .
 
-FROM alpine:latest  
+# Build the Go app
+RUN go build -o main ./cmd/main.go
 
-WORKDIR /root/
-
-COPY --from=builder /app/main .
-
-EXPOSE 8002
-
+# Command to run the executable
 CMD ["./main"]
