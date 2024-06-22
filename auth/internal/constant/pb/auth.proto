@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package auth;
+
+// Specifies the Go package where the generated Go code will be placed.
+option go_package = "./pkg/auth/pb";
+
+// AuthService is a service that provides methods for user registration, login, and token validation.
+service AuthService {
+  // Register a new user.
+  rpc Register(RegisterRequest) returns (RegisterResponse) {}
+  // Login an existing user.
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+  // Validate a user's token.
+  rpc Validate(ValidateRequest) returns (ValidateResponse) {}
+}
+
+// Request message for the Register method.
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+}
+
+// Response message for the Register method.
+message RegisterResponse {
+  int64 status = 1;
+  string error = 2;
+}
+
+// Request message for the Login method.
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+// Response message for the Login method.
+message LoginResponse {
+  int64 status = 1;
+  string error = 2;
+  string token = 3;
+}
+
+// Request message for the Validate method.
+message ValidateRequest { string token = 1; }
+
+// Response message for the Validate method.
+message ValidateResponse {
+  int64 status = 1;
+  string error = 2;
+  string userId = 3;
+}

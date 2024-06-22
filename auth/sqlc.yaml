@@ -1,0 +1,26 @@
+version: "2"
+
+sql:
+  - schema: "internal/constant/db/schema"
+    queries: "internal/constant/db/queries"
+    engine: "postgresql"
+
+    gen:
+      go:
+        package: "db"
+        out: "internal/constant/db/queries/db"
+        sql_package: "pgx/v4"
+        overrides:
+          - db_type: "pg_catalog.numeric"
+            go_type: "github.com/shopspring/decimal.NullDecimal"
+            nullable: true
+          - db_type: "pg_catalog.numeric"
+            go_type: "github.com/shopspring/decimal.Decimal"
+            nullable: false
+          - db_type: "pg_catalog.interval"
+            go_type: "string"
+            nullable: false
+          - db_type: "pg_catalog.interval"
+            go_type: "string"
+            nullable: true
+
