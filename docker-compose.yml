@@ -1,0 +1,108 @@
+version: "3.9"
+
+services:
+  # MongoDB
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - ../db-data/mongo/:/data/db
+    networks:
+      - mynetwork
+
+  # Mongo Express
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    networks:
+      - mynetwork
+
+  # PostgreSQL
+  postgres_db:
+    container_name: postgres_db
+    image: postgres:15-alpine
+    ports:
+      - "5433:5433"
+    command: ["postgres", "-p", "5433"]
+    environment:
+      - POSTGRES_DB=auth
+      - POSTGRES_USER=auth
+      - POSTGRES_PASSWORD=auth123
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth -p 5433 -d auth"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    volumes:
+      - ./.misc:/.misc # for transferring files like .sql imports
+    networks:
+      - mynetwork
+
+  # Auth service
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    command: ["./main"]
+    ports:
+      - "8001:8001"
+    depends_on:
+      - postgres_db
+    environment:
+      - PORT=:8001
+      - DATABASE_URL=postgres://auth:auth123@postgres_db:5433/auth?sslmode=disable
+    networks:
+      - mynetwork
+
+  # Weather service
+  weather:
+    build:
+      context: ./weather
+      dockerfile: Dockerfile
+    command: ["./main"]
+    ports:
+      - "8002:8002"
+    depends_on:
+      - mongo
+    environment:
+      - PORT=:8002
+      - MONGO_URL=mongodb://root:example@mongo:27017
+    networks:
+      - mynetwork
+
+  # Gateway service
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    command: ["./main"]
+    ports:
+      - "8000:8000"
+    depends_on:
+      - auth
+      - weather
+    environment:
+      - PORT=:8000
+      - AUTH_SVC_URL=auth:8001
+      - WEATHER_SVC_URL=weather:8002
+    networks:
+      - mynetwork
+
+volumes:
+  mongo-data:
+  postgres-data:
+
+networks:
+  mynetwork:
+    driver: bridge

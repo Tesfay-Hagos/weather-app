@@ -1,20 +1,20 @@
-# Start with the official Golang image
-FROM golang:1.22.4-alpine
+# docker file for gateway service
+FROM golang:1.22.4-alpine AS builder
 
-# Set the Current Working Directory inside the container
 WORKDIR /app
 
-# Copy go mod and sum files
-COPY go.mod go.sum ./
+COPY ./gateway .
 
-# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download
 
-# Copy the source from the current directory to the Working Directory inside the container
-COPY . .
+RUN go build -o main .
 
-# Build the Go app
-RUN go build -o main ./cmd/main.go
+FROM alpine:latest  
 
-# Command to run the executable
+WORKDIR /root/
+
+COPY --from=builder /app/main .
+
+EXPOSE 8000
+
 CMD ["./main"]
