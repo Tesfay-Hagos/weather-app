@@ -7,6 +7,7 @@ import (
 
 	"github.com/Tesfay-Hagos/go-grpc-weather-svc/internal/config"
 	"github.com/Tesfay-Hagos/go-grpc-weather-svc/internal/services"
+	"github.com/Tesfay-Hagos/go-grpc-weather-svc/internal/services/storer"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -26,6 +27,7 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatalln("Failed at config", err)
 	}
-	s = services.NewServer(client.Database(c.DbName), c.WeatherAPIKey, c.WeatherURL)
+	storer := storer.NewWeatherStorer(client.Database(c.DbName))
+	s = services.NewServer(storer, c.WeatherAPIKey, c.WeatherURL)
 	m.Run()
 }

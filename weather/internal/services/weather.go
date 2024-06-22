@@ -5,19 +5,19 @@ import (
 
 	"github.com/Tesfay-Hagos/go-grpc-weather-svc/internal/constant/models"
 	"github.com/Tesfay-Hagos/go-grpc-weather-svc/internal/constant/pb"
+	"github.com/Tesfay-Hagos/go-grpc-weather-svc/internal/services/storer"
 	"github.com/Tesfay-Hagos/go-grpc-weather-svc/internal/support"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Server struct {
 	pb.UnimplementedWeatherServiceServer
-	db     *mongo.Database
+	storer storer.Storer
 	APIKey string
 	URL    string
 }
 
-func NewServer(db *mongo.Database, apikey, url string) *Server {
-	return &Server{db: db,
+func NewServer(store storer.Storer, apikey, url string) *Server {
+	return &Server{storer: store,
 		APIKey: apikey,
 		URL:    url}
 }
