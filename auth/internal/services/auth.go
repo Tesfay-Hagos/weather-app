@@ -56,7 +56,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 		return &pb.LoginResponse{
 			Status: http.StatusNotFound,
 			Error:  "User not found",
-		}, nil
+		}, errors.New("user not found")
 	}
 	token, _ := s.Jwt.GenerateToken(models.User{
 		Email: user.Email,
