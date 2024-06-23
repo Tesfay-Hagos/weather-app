@@ -365,7 +365,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "0.1.0",
 	Host:             "localhost:8000",
-	BasePath:         "",
+	BasePath:         "/v1",
 	Schemes:          []string{},
 	Title:            "Weather API Gateway service",
 	Description:      "This is API used to create weather data for any city in the world.",

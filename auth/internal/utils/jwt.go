@@ -22,7 +22,7 @@ type jwtClaims struct {
 
 func (w *JwtWrapper) GenerateToken(user models.User) (signedToken string, err error) {
 	claims := &jwtClaims{
-		Id:    user.Id,
+		Id:    user.ID,
 		Email: user.Email,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(w.ExpirationHours)).Unix(),

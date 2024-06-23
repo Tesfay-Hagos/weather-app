@@ -3,11 +3,13 @@ module github.com/Tesfay-Hagos/go-grpc-auth-svc
 go 1.22.4
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20200108200545-475eaeb16496
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgconn v1.14.3
 	github.com/jackc/pgx/v4 v4.18.3
 	github.com/spf13/viper v1.19.0
+	github.com/stretchr/testify v1.9.0
 	go.uber.org/zap v1.21.0
 	golang.org/x/crypto v0.21.0
 	google.golang.org/grpc v1.64.0
@@ -15,6 +17,7 @@ require (
 )
 
 require (
+	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
@@ -23,11 +26,14 @@ require (
 	github.com/jackc/pgtype v1.14.0 // indirect
 	github.com/jackc/puddle v1.3.0 // indirect
 	github.com/lib/pq v1.10.9 // indirect
+	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
 
 require (
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
+	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
+	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
 	github.com/golang-migrate/migrate/v4 v4.17.1
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect

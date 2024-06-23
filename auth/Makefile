@@ -11,3 +11,7 @@ migrate-create:
 	migrate create -ext sql -dir internal/constant/db/schema -tz "UTC" $(args)
 sqlc:
 	sqlc generate -f sqlc.yaml
+start: 
+	docker compose up -d
+stop:
+	docker compose down

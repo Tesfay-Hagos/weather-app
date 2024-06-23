@@ -9,8 +9,8 @@ type Config struct {
 	MigrationPath string `mapstructure:"MIGRATION_PATH"`
 }
 
-func LoadConfig() (config Config, err error) {
-	viper.AddConfigPath("./internal/config/envs")
+func LoadConfig(path string) (config Config, err error) {
+	viper.AddConfigPath(path)
 	viper.SetConfigName("dev")
 	viper.SetConfigType("env")
 
