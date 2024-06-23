@@ -23,7 +23,6 @@ func NewServer(store storer.Storer, apikey, url string) *Server {
 		URL:    url}
 }
 func (s *Server) CreateWeather(ctx context.Context, req *pb.CreateWeatherRequest) (*pb.CreateWeatherResponse, error) {
-
 	we, err := support.GetWeather(
 		req.City,
 		s.URL,

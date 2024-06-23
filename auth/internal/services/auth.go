@@ -23,12 +23,6 @@ func NewServer(h dbs.PersistenceDB, jwt utils.JwtWrapper) *Server {
 }
 
 func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
-	if err := models.Validate(req); err != nil {
-		return &pb.RegisterResponse{
-			Status: http.StatusBadRequest,
-			Error:  err.Error(),
-		}, errors.New(err.Error())
-	}
 	us, err := s.H.Queries.CreateUser(ctx, db.CreateUserParams{
 		Email:    req.Email,
 		Password: utils.HashPassword(req.Password),

@@ -1,9 +1,11 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/Tesfay-Hagos/go-grpc-api-gateway/internal/services/weather/constant/pb"
+	validation "github.com/go-ozzo/ozzo-validation"
 )
 
 type CreateWeatherRequest struct {
@@ -11,6 +13,31 @@ type CreateWeatherRequest struct {
 	EndDate   time.Time `json:"endDate"`
 	StartDate time.Time `json:"startDate"`
 }
+
+func (req CreateWeatherRequest) Validate() error {
+	err := validation.ValidateStruct(req,
+		// Validate email field
+		validation.Field(&req.City,
+			validation.Required.Error("email is required"),
+			validation.Length(5, 100),
+		),
+		// Validate password field
+		validation.Field(&req.EndDate,
+			validation.Required.Error("password is required"),
+		),
+		// Validate confirm password field
+		validation.Field(&req.StartDate,
+			validation.Required.Error("confirm password is required"),
+		),
+	)
+
+	if err != nil {
+		return fmt.Errorf("validation failed: %w", err)
+	}
+
+	return nil
+}
+
 type CreateWeatherResponse struct {
 	Latitude  float64    `json:"latitude"`
 	Longitude float64    `json:"longitude"`

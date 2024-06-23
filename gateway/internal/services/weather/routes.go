@@ -39,12 +39,25 @@ func RegisterRoutes(r *gin.RouterGroup, c *config.Config, authSvc *auth.ServiceC
 func (svc *ServiceClient) CreateWeather(ctx *gin.Context) {
 	b := models.CreateWeatherRequest{}
 	if err := ctx.BindJSON(&b); err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		ctx.JSON(http.StatusBadRequest, &models.ErrorResponse{
+			Status: http.StatusBadRequest,
+			Error:  err.Error(),
+		})
+		return
+	}
+	if err := b.Validate(); err != nil {
+		ctx.JSON(http.StatusBadRequest, &models.ErrorResponse{
+			Status: http.StatusBadRequest,
+			Error:  err.Error(),
+		})
 		return
 	}
 	res, err := routes.CreateWeather(ctx, svc.Client, b)
 	if err != nil {
-		ctx.AbortWithError(http.StatusInternalServerError, err)
+		ctx.JSON(http.StatusInternalServerError, &models.ErrorResponse{
+			Status: http.StatusInternalServerError,
+			Error:  err.Error(),
+		})
 		return
 	}
 	ctx.JSON(http.StatusCreated, &res)

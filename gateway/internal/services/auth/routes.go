@@ -39,9 +39,21 @@ func (svc *ServiceClient) Register(ctx *gin.Context) {
 		ctx.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
+	if err := body.Validate(); err != nil {
+		errBody := &models.RegisterResponse{
+			Status: http.StatusBadRequest,
+			Error:  err.Error(),
+		}
+		ctx.JSON(http.StatusBadRequest, errBody)
+		return
+	}
 	res, err := routes.Register(ctx, svc.Client, body)
 	if err != nil {
-		ctx.AbortWithError(http.StatusInternalServerError, err)
+		errBody := &models.RegisterResponse{
+			Status: http.StatusInternalServerError,
+			Error:  err.Error(),
+		}
+		ctx.JSON(http.StatusBadRequest, errBody)
 		return
 	}
 	ctx.JSON(int(res.Status), &res)
@@ -61,12 +73,31 @@ func (svc *ServiceClient) Register(ctx *gin.Context) {
 func (svc *ServiceClient) Login(ctx *gin.Context) {
 	b := models.LoginRequestBody{}
 	if err := ctx.BindJSON(&b); err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		errorbody := models.LoginResponse{
+			Status: 400,
+			Error:  err.Error(),
+			Token:  "",
+		}
+		ctx.JSON(http.StatusBadRequest, errorbody)
+		return
+	}
+	if err := b.Validate(); err != nil {
+		errorbody := models.LoginResponse{
+			Status: 400,
+			Error:  err.Error(),
+			Token:  "",
+		}
+		ctx.JSON(http.StatusBadRequest, &errorbody)
 		return
 	}
 	res, err := routes.Login(ctx, svc.Client, b)
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadGateway, err)
+		errorbody := models.LoginResponse{
+			Status: 400,
+			Error:  err.Error(),
+			Token:  "",
+		}
+		ctx.JSON(http.StatusBadRequest, &errorbody)
 		return
 	}
 	ctx.JSON(int(res.Status), &res)
