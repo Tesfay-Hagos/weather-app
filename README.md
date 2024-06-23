@@ -37,6 +37,26 @@ After starting the application, you can interact with the API through the Swagge
 
 2. Explore the available API endpoints and test the functionalities of the Weather App.
 
+## Optional Commands
+
+Restart the app
+
+```
+  make restart
+```
+
+Clean your docker
+
+```
+  make clean
+```
+
+Stop all services
+
+```
+  make stop
+```
+
 ## Services Overview
 
 - **Gateway Service**: Primary entry point for all API requests.
